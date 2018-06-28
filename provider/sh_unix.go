@@ -41,7 +41,7 @@ func (s *ShUnix) exec(ctx context.Context) (string, error) {
 		}
 	}()
 
-	os.Stdout.WriteString(fmt.Sprintf("   %s\n", strings.Join(s.sh.Cmd, " ")))
+	os.Stdout.WriteString(fmt.Sprintf("> %s\n", strings.Join(s.sh.Cmd, " ")))
 	err = cmd.Start()
 	if err != nil {
 		return "", err
