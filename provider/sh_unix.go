@@ -7,6 +7,7 @@ import (
 	"bufio"
 	"fmt"
 	"strings"
+	"os"
 )
 
 type ShUnix struct {
@@ -27,7 +28,7 @@ func (s *ShUnix) Realize(phase string, ctx context.Context) (string, error) {
 }
 
 func (s *ShUnix) exec(ctx context.Context) (string, error) {
-	cmd := exec.Command("bash", "-c", strings.Join(s.sh.Cmd, ""))
+	cmd := exec.Command("bash", "-c", strings.Join(s.sh.Cmd, " "))
 	cmdReader, err := cmd.StdoutPipe()
 	if err != nil {
 		return "", err
@@ -36,10 +37,11 @@ func (s *ShUnix) exec(ctx context.Context) (string, error) {
 	scanner := bufio.NewScanner(cmdReader)
 	go func() {
 		for scanner.Scan() {
-			fmt.Printf("  %s\n", scanner.Text())
+			os.Stdout.WriteString(fmt.Sprintf("    %s\n", scanner.Text()))
 		}
 	}()
 
+	os.Stdout.WriteString(fmt.Sprint("  ", strings.Join(s.sh.Cmd, " ")))
 	err = cmd.Start()
 	if err != nil {
 		return "", err

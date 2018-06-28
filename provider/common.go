@@ -13,6 +13,8 @@ type Options struct {
 	OutputPath string
 	TargetPath string
 	WorkPath string
+
+	Debug bool
 }
 
 // Need to add provider switching
