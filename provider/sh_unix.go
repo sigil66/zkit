@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"bufio"
 	"fmt"
+	"strings"
 )
 
 type ShUnix struct {
@@ -26,7 +27,7 @@ func (s *ShUnix) Realize(phase string, ctx context.Context) (string, error) {
 }
 
 func (s *ShUnix) exec(ctx context.Context) (string, error) {
-	cmd := exec.Command(s.sh.Cmd[0], s.sh.Cmd[1:]...)
+	cmd := exec.Command("bash", "-c", strings.Join(s.sh.Cmd, ""))
 	cmdReader, err := cmd.StdoutPipe()
 	if err != nil {
 		return "", err
