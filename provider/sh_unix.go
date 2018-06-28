@@ -36,7 +36,7 @@ func (s *ShUnix) exec(ctx context.Context) (string, error) {
 	scanner := bufio.NewScanner(cmdReader)
 	go func() {
 		for scanner.Scan() {
-			fmt.Printf("    %s\n", scanner.Text())
+			fmt.Printf("  %s\n", scanner.Text())
 		}
 	}()
 
