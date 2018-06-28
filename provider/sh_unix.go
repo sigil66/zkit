@@ -37,11 +37,11 @@ func (s *ShUnix) exec(ctx context.Context) (string, error) {
 	scanner := bufio.NewScanner(cmdReader)
 	go func() {
 		for scanner.Scan() {
-			os.Stdout.WriteString(fmt.Sprintf("    %s\n", scanner.Text()))
+			os.Stdout.WriteString(fmt.Sprintf("  %s\n", scanner.Text()))
 		}
 	}()
 
-	os.Stdout.WriteString(fmt.Sprintf("> %s\n", strings.Join(s.sh.Cmd, " ")))
+	os.Stdout.WriteString(fmt.Sprintf("  > %s\n", strings.Join(s.sh.Cmd, " ")))
 	err = cmd.Start()
 	if err != nil {
 		return "", err
