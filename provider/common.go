@@ -15,6 +15,7 @@ type Options struct {
 	WorkPath string
 
 	Debug bool
+	Verbose bool
 }
 
 // Need to add provider switching

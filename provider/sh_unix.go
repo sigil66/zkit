@@ -29,9 +29,10 @@ func (s *ShUnix) Realize(phase string, ctx context.Context) (string, error) {
 
 func (s *ShUnix) exec(ctx context.Context) (string, error) {
 	var err error
+	options := ctx.Value("options").(*Options)
 	cmd := exec.Command("bash", "-c", strings.Join(s.sh.Cmd, " "))
 
-	if s.sh.Output {
+	if options.Verbose || s.sh.Output {
 		cmdReader, err := cmd.StdoutPipe()
 		if err != nil {
 			return "", err
@@ -55,7 +56,7 @@ func (s *ShUnix) exec(ctx context.Context) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	
+
 	return "", nil
 }
 
