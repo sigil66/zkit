@@ -29,8 +29,20 @@ func (s *ShUnix) Realize(phase string, ctx context.Context) (string, error) {
 
 func (s *ShUnix) exec(ctx context.Context) (string, error) {
 	var err error
+	var shell string
 	options := ctx.Value("options").(*Options)
-	cmd := exec.Command("bash", "-c", strings.Join(s.sh.Cmd, " "))
+
+	if s.sh.Shell != "" {
+		shell = s.sh.Shell
+	} else {
+		shell = "bash"
+	}
+
+	cmd := exec.Command(shell, "-c", strings.Join(s.sh.Cmd, " "))
+
+	if s.sh.Env != nil {
+		cmd.Env = s.envFromMap(s.sh.Env)
+	}
 
 	if options.Verbose || s.sh.Output {
 		cmdReader, err := cmd.StdoutPipe()
@@ -59,5 +71,15 @@ func (s *ShUnix) exec(ctx context.Context) (string, error) {
 	}
 
 	return "", nil
+}
+
+func (s *ShUnix) envFromMap(env map[string]string) []string {
+	var result []string
+
+	for k, v := range env {
+		result = append(result, strings.Join([]string{k,v}, "="))
+	}
+
+	return result
 }
 

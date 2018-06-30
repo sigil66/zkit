@@ -7,7 +7,10 @@ import (
 type Sh struct {
 	Name string `hcl:"name,label"`
 	Cmd []string `hcl:"cmd"`
+	Env map[string]string `hcl:"env,optional"`
 	Output bool  `hcl:"output,optional"`
+	Shell string `hcl:"shell,optional"`
+
 }
 
 func (s *Sh) Key() string {
