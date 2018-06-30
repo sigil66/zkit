@@ -28,30 +28,34 @@ func (s *ShUnix) Realize(phase string, ctx context.Context) (string, error) {
 }
 
 func (s *ShUnix) exec(ctx context.Context) (string, error) {
+	var err error
 	cmd := exec.Command("bash", "-c", strings.Join(s.sh.Cmd, " "))
-	cmdReader, err := cmd.StdoutPipe()
-	if err != nil {
-		return "", err
-	}
 
-	scanner := bufio.NewScanner(cmdReader)
-	go func() {
-		for scanner.Scan() {
-			os.Stdout.WriteString(fmt.Sprintf("  %s\n", scanner.Text()))
+	if s.sh.Output {
+		cmdReader, err := cmd.StdoutPipe()
+		if err != nil {
+			return "", err
 		}
-	}()
 
-	os.Stdout.WriteString(fmt.Sprintf("  > %s\n", strings.Join(s.sh.Cmd, " ")))
-	err = cmd.Start()
-	if err != nil {
-		return "", err
+		scanner := bufio.NewScanner(cmdReader)
+		go func() {
+			for scanner.Scan() {
+				os.Stdout.WriteString(fmt.Sprintf("  %s\n", scanner.Text()))
+			}
+		}()
+
+		os.Stdout.WriteString(fmt.Sprintf("  > %s\n", strings.Join(s.sh.Cmd, " ")))
+		err = cmd.Start()
+		if err != nil {
+			return "", err
+		}
 	}
 
 	err = cmd.Wait()
 	if err != nil {
 		return "", err
 	}
-
+	
 	return "", nil
 }
 
