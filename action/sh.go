@@ -11,7 +11,7 @@ type Sh struct {
 	Output bool  `hcl:"output,optional"`
 	Shell string `hcl:"shell,optional"`
 
-	Conditional *bool `hcl:"conditional,optional"`
+	OnCondition *bool `hcl:"on_condition,optional"`
 }
 
 func (s *Sh) Key() string {
@@ -27,5 +27,5 @@ func (s *Sh) Type() string {
 }
 
 func (s *Sh) Condition() *bool {
-	return s.Conditional
+	return s.OnCondition
 }
