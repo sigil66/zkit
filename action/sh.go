@@ -11,6 +11,7 @@ type Sh struct {
 	Output bool  `hcl:"output,optional"`
 	Shell string `hcl:"shell,optional"`
 
+	Conditional *bool `hcl:"conditional,optional"`
 }
 
 func (s *Sh) Key() string {
@@ -23,4 +24,8 @@ func (s *Sh) Id() string {
 
 func (s *Sh) Type() string {
 	return "Sh"
+}
+
+func (s *Sh) Condition() *bool {
+	return s.Conditional
 }
