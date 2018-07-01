@@ -5,6 +5,7 @@ type Action interface {
 	Key() string
 	Type() string
 	Condition() *bool
+	MayFail() bool
 }
 
 type Actions []Action

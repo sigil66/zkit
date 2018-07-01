@@ -12,6 +12,7 @@ type Sh struct {
 	Shell string `hcl:"shell,optional"`
 
 	OnCondition *bool `hcl:"on_condition,optional"`
+	AllowFailure bool `hcl:"allow_failure,optional"`
 }
 
 func (s *Sh) Key() string {
@@ -28,4 +29,8 @@ func (s *Sh) Type() string {
 
 func (s *Sh) Condition() *bool {
 	return s.OnCondition
+}
+
+func (s *Sh) MayFail() bool {
+	return s.AllowFailure
 }
