@@ -13,15 +13,17 @@ import (
 type ShUnix struct {
 	*emission.Emitter
 	sh *action.Sh
+
+	phaseMap map[string]string
 }
 
-func NewShUnix(sh action.Action, emitter *emission.Emitter) *ShUnix {
-	return &ShUnix{emitter, sh.(*action.Sh)}
+func NewShUnix(sh action.Action, phaseMap map[string]string, emitter *emission.Emitter) *ShUnix {
+	return &ShUnix{emitter,  sh.(*action.Sh), phaseMap}
 }
 
 func (s *ShUnix) Realize(ctx context.Context) error {
-	switch Phase(ctx) {
-	case phase.BUILD:
+	switch s.phaseMap[Phase(ctx)] {
+	case "exec":
 		return s.exec(ctx)
 	default:
 		return nil
@@ -31,7 +33,7 @@ func (s *ShUnix) Realize(ctx context.Context) error {
 func (s *ShUnix) exec(ctx context.Context) error {
 	var err error
 	var shell string
-	options := Options(ctx)
+	options := Opts(ctx)
 
 	if s.sh.Shell != "" {
 		shell = s.sh.Shell
