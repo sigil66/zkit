@@ -7,7 +7,6 @@ import (
 	"bufio"
 	"strings"
 	"github.com/chuckpreslar/emission"
-	"github.com/solvent-io/zkit/phase"
 )
 
 type ShUnix struct {
