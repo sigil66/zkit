@@ -16,7 +16,7 @@ type ShUnix struct {
 	phaseMap map[string]string
 }
 
-func NewShUnix(sh action.Action, phaseMap map[string]string, emitter *emission.Emitter) *ShUnix {
+func NewShUnix(sh action.Action, phaseMap map[string]string, emitter *emission.Emitter) Provider {
 	return &ShUnix{emitter,  sh.(*action.Sh), phaseMap}
 }
 
