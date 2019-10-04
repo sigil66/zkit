@@ -2,11 +2,9 @@ all: zkit
 
 clean:
 	rm -rf dist
+	go mod tidy
 
-deps:
-	dep ensure
-
-zkit: clean deps
+zkit: clean
 
 fmt:
 	goimports -w $$(go list -f {{.Dir}} ./... | grep -v /vendor/)

@@ -1,7 +1,7 @@
 package provider
 
 import (
-	"github.com/solvent-io/zkit/action"
+	"github.com/sigil66/zkit/action"
 	"context"
 	"os/exec"
 	"bufio"
@@ -22,14 +22,14 @@ func NewShUnix(sh action.Action, phaseMap map[string]string, emitter *emission.E
 
 func (s *ShUnix) Realize(ctx context.Context) error {
 	switch s.phaseMap[Phase(ctx)] {
-	case "exec":
-		return s.exec(ctx)
+	case "run":
+		return s.run(ctx)
 	default:
 		return nil
 	}
 }
 
-func (s *ShUnix) exec(ctx context.Context) error {
+func (s *ShUnix) run(ctx context.Context) error {
 	var err error
 	var shell string
 	options := Opts(ctx)

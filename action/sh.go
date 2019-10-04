@@ -34,3 +34,7 @@ func (s *Sh) Condition() *bool {
 func (s *Sh) MayFail() bool {
 	return s.AllowFailure
 }
+
+func (s *Sh) IsValid() bool {
+	return true
+}
